@@ -21,11 +21,6 @@ class ReminderMailer < Mailer
 
   def reminder_notification(user, projects)
 
-    # Only send notifications if the user has requested them or they are
-    # activated by default.
-    if !user.reminder_notification_array.any? then
-      return
-    end
     set_language_if_valid user.language
     puts "User: #{user.name}. Setting for notification: #{user.reminder_notification}"
     puts "Issues:"
@@ -46,7 +41,7 @@ class ReminderMailer < Mailer
                                                   " AND #{User.table_name}.status = #{User::STATUS_ACTIVE}"]
     )
     issues = scope.all(:include => [:status, :assigned_to, :project, :tracker])
-    issues.reject! { |issue| not (issue.remind? or issue.overdue?) }
+    issues.reject! { |issue| not issue.remind? }
     issues.sort! { |first, second| first.due_date <=> second.due_date }
   end
 

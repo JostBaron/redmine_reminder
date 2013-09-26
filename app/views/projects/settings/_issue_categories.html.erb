@@ -12,7 +12,7 @@
   <tr class="<%= cycle 'odd', 'even' %>">
     <td><%= h(category.name) %></td>
     <td><%= h(category.assigned_to.name) if category.assigned_to %></td>
-    <td><%= content_tag(:span, h(category.reminder_notification.present? ? category.reminder_notification.to_s : '-'), { style: "text-align: center; display:block;" }) %></td>
+    <td><%= content_tag(:span, h(category.reminder_notification.present? ? category.reminder_notification.to_s : '-'), { :style => "text-align: center; display:block;" }) %></td>
     <td class="buttons">
       <% if User.current.allowed_to?(:manage_categories, @project) %>
         <%= link_to l(:button_edit), edit_issue_category_path(category), :class => 'icon icon-edit' %>

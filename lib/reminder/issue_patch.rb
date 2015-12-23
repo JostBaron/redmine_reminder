@@ -21,11 +21,13 @@ module Reminder
     end
 
     def days_before_start_date
-      (start_date - Date.today).to_i
+      return 365 * 100 if start_date.nil?
+      return (start_date - Date.today).to_i
     end
 
     def days_before_due_date
-      (due_date - Date.today).to_i
+      return 365 * 100 if due_date.nil?
+      return (due_date - Date.today).to_i
     end
 
     def remind_due_date?

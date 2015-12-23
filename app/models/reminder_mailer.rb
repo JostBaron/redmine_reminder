@@ -23,9 +23,9 @@ class ReminderMailer < Mailer
 
     # Only send notifications if the user has requested them or they are
     # activated by default.
-    if !user.reminder_notification_array.any? then
-      return
-    end
+    #if !user.reminder_notification_array.any? then
+    #  return
+    #end
     set_language_if_valid user.language
     puts "User: #{user.name}. Setting for notification: #{user.reminder_notification}"
     puts "Issues:"
@@ -40,14 +40,21 @@ class ReminderMailer < Mailer
 
 
   def self.find_issues
-    scope = Issue.open.scoped(:conditions => ["#{Issue.table_name}.assigned_to_id IS NOT NULL" +
-                                                  " AND #{Project.table_name}.status = #{Project::STATUS_ACTIVE}" +
-                                                  " AND #{Issue.table_name}.due_date IS NOT NULL" +
-                                                  " AND #{User.table_name}.status = #{User::STATUS_ACTIVE}"]
+    scope = Issue.open.where("#{Issue.table_name}.assigned_to_id IS NOT NULL" +
+                                 " AND #{Project.table_name}.status = #{Project::STATUS_ACTIVE}" +
+                                 " AND ( #{Issue.table_name}.due_date IS NOT NULL OR #{Issue.table_name}.start_date IS NOT NULL )" +
+                                 " AND #{User.table_name}.status = #{User::STATUS_ACTIVE}"
     )
-    issues = scope.all(:include => [:status, :assigned_to, :project, :tracker])
-    issues.reject! { |issue| not (issue.remind? or issue.overdue?) }
-    issues.sort! { |first, second| first.due_date <=> second.due_date }
+    issues = scope.includes([:status, :assigned_to, :project, :tracker]).all
+    issues = issues.reject { |issue| not (issue.remind_due_date? or ( issue.overdue? and issue.project.module_enabled?(:reminder_notifications) ) or issue.remind_start_date?) }
+    issues = issues.sort { |first, second| 
+		first.start_date <=> second.start_date if     (first.remind_start_date? and second.remind_start_date?)
+		first.due_date   <=> second.due_date   if not (first.remind_start_date? and second.remind_start_date?)
+		-1 if first.remind_start_date?
+		1
+	}
+
+    return issues
   end
 
   private

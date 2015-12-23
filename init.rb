@@ -38,5 +38,8 @@ Redmine::Plugin.register :redmine_reminder do
   url 'https://github.com/f0y/redmine_reminder'
   author_url 'http://f0y.me'
   requires_redmine :version_or_higher => '2.0.0'
-  settings :default => {'reminder_notification' => '1,3,5', 'category_reminder_notification' => '1,3,5' }, :partial => 'reminder/settings'
+  settings :default => {'reminder_notification' => '1,7,30', 'category_reminder_notification' => '1,7,30' }, :partial => 'reminder/settings'
+  project_module :reminder_notifications do
+		permission :reminder_notifications, {}
+  end
 end

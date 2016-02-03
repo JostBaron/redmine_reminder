@@ -32,13 +32,13 @@ end
 
 Redmine::Plugin.register :redmine_reminder do
   name 'Due Date Reminder plugin'
-  author 'Oleg Kandaurov'
+  author 'Oleg Kandaurov, Dmitry Yu Okunev'
   description 'Sends notifications about due date'
-  version '0.4'
-  url 'https://github.com/f0y/redmine_reminder'
-  author_url 'http://f0y.me'
+  version '0.5'
+  url 'https://github.com/mephi-ut/redmine_reminder'
+  author_url 'http://f0y.me https://github.com/xaionaro'
   requires_redmine :version_or_higher => '2.0.0'
-  settings :default => {'reminder_notification' => '1,7,30', 'category_reminder_notification' => '1,7,30' }, :partial => 'reminder/settings'
+  settings :default => {'reminder_notification' => '1,7,30', 'category_reminder_notification' => '1,7,30', 'reminder_notification_ignore_status' => {} }, :partial => 'reminder/settings'
   project_module :reminder_notifications do
 		permission :reminder_notifications, {}
   end

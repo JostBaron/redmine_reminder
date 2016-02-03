@@ -6,4 +6,4 @@ ru:
   reminder_mail_body: "Напоминаем, что следующие задачи необходимо выполнить в соответствии с указанными сроками"
   reminder_days_overdue: "Просрочена на следующее кол-во дней - %{days}"
   reminder_view_all_your_issues: "Показать все ваши задачи"
-
+  field_reminder_notification_ignore_statuses: "Игнорировать задачи со статусом"

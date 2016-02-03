@@ -47,6 +47,8 @@ class ReminderMailer < Mailer
     )
     issues = scope.includes([:status, :assigned_to, :project, :tracker]).all
     issues = issues.reject { |issue| not (issue.remind_due_date? or ( issue.overdue? and issue.project.module_enabled?(:reminder_notifications) ) or issue.remind_start_date?) }
+    issues = issues.reject { |issue| issue.done_ratio >= 100 or not Setting.plugin_redmine_reminder["reminder_notification_ignore_status_#{issue.status.id.to_s}"].nil? }
+    issues = issues.reject { |issue| issue.assigned_to_id != 3 }
     issues = issues.sort { |first, second| 
 		first.start_date <=> second.start_date if     (first.remind_start_date? and second.remind_start_date?)
 		first.due_date   <=> second.due_date   if not (first.remind_start_date? and second.remind_start_date?)

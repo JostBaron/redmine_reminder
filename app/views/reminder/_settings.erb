@@ -6,4 +6,10 @@
     <br/>
     <em><%= l(:text_comma_separated) %></em>
   </p>
+  <p>
+    <%= l(:field_reminder_notification_ignore_statuses) %>:
+    <% IssueStatus.all.each do |status| %>
+      <br><%= check_box_tag "settings[reminder_notification_ignore_status_#{status.id.to_s}]", 1, @settings["reminder_notification_ignore_status_#{status.id.to_s}"] %><%= status.name %>
+    <% end %>
+  </p>
 </fieldset>

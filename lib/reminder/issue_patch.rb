@@ -20,11 +20,18 @@ module Reminder
       []
     end
 
-    def days_before_due_date
-      (due_date - Date.today).to_i
+    def days_before_start_date
+      return 365 * 100 if start_date.nil?
+      return (start_date - Date.today).to_i
     end
 
-    def remind?
+    def days_before_due_date
+      return 365 * 100 if due_date.nil?
+      return (due_date - Date.today).to_i
+    end
+
+    def remind_due_date?
+      return false unless project.module_enabled?(:reminder_notifications)
       if assigned_to.present?
         if reminder_notification_array.any? then
           return reminder_notification_array.include?(days_before_due_date)
@@ -32,6 +39,20 @@ module Reminder
           return category.reminder_notification_array.include?(days_before_due_date)
         else
           return assigned_to.reminder_notification_array.include?(days_before_due_date)
+        end
+      end
+      return false
+    end
+
+    def remind_start_date?
+      return false unless project.module_enabled?(:reminder_notifications)
+      if assigned_to.present?
+        if reminder_notification_array.any? then
+          return reminder_notification_array.include?(days_before_start_date)
+        elsif category.present? && category.reminder_notification_array.any? then
+          return category.reminder_notification_array.include?(days_before_start_date)
+        else
+          return assigned_to.reminder_notification_array.include?(days_before_start_date)
         end
       end
       return false

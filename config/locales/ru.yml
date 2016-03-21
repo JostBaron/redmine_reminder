@@ -1,9 +1,9 @@
 ru:
   reminder_default_notification_settings: "Настройки уведомления по умолчанию"
-  field_reminder_notification: "Напоминать о задачах за следующее количество дней, до истечения срока выполнения"
+  field_reminder_notification: "За сколько дней напоминать о сроках"
   error_reminder_notification_input: "Неверный ввод. Вы должны ввести целые, разделённые запятой значения."
-  reminder_mail_subject: "Reminder: У вас есть задачи с истекающим сроком выполнения"
-  reminder_mail_body: "Задачи, назначенные вам, у которых есть срок выполнения"
+  reminder_mail_subject: "Задачи, требующие скорого выполнения"
+  reminder_mail_body: "Напоминаем, что следующие задачи необходимо выполнить в соответствии с указанными сроками"
   reminder_days_overdue: "Просрочена на следующее кол-во дней - %{days}"
-  reminder_view_all_your_issues: "View all your issues"
-
+  reminder_view_all_your_issues: "Показать все ваши задачи"
+  field_reminder_notification_ignore_statuses: "Игнорировать задачи со статусом"
